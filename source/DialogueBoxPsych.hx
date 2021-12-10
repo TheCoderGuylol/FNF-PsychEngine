@@ -280,6 +280,15 @@ class DialogueBoxPsych extends FlxSpriteGroup
 	var ignoreThisFrame:Bool = true; //First frame is reserved for loading dialogue images
 	override function update(elapsed:Float)
 	{
+		#if mobileC
+		var screenTouch:Bool = false;
+		for (touch in FlxG.touches.list) {
+			screenTouch = false;
+			if (touch.justPressed) {
+				screenTouch = true;
+			}
+		}
+		#end
 		if(ignoreThisFrame) {
 			ignoreThisFrame = false;
 			super.update(elapsed);
@@ -290,7 +299,7 @@ class DialogueBoxPsych extends FlxSpriteGroup
 			bgFade.alpha += 0.5 * elapsed;
 			if(bgFade.alpha > 0.5) bgFade.alpha = 0.5;
 
-			if(PlayerSettings.player1.controls.ACCEPT) {
+			if(FlxG.keys.justPressed.ANY #if mobileC || screenTouch #end) {
 				if(!daText.finishedText) {
 					if(daText != null) {
 						daText.killTheTimer();
