@@ -51,6 +51,9 @@ import Achievements;
 import StageData;
 import FunkinLua;
 import DialogueBoxPsych;
+#if mobileC
+import android.ui.MobileControls;
+#end
 
 #if sys
 import sys.FileSystem;
