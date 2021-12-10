@@ -342,6 +342,10 @@ class ModsMenuState extends MusicBeatState
 
 		FlxG.mouse.visible = true;
 
+                #if mobileC
+                addVirtualPad(UP_DOWN, A_B);
+                #end
+
 		super.create();
 	}
 
@@ -431,7 +435,7 @@ class ModsMenuState extends MusicBeatState
 			noModsTxt.alpha = 1 - Math.sin((Math.PI * noModsSine) / 180);
 		}
 
-		if(canExit && controls.BACK)
+		if(canExit && controls.BACK #if android || MusicBeatState.androidback() #end)
 		{
 			if(colorTween != null) {
 				colorTween.cancel();
