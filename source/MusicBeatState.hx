@@ -13,6 +13,10 @@ import flixel.util.FlxColor;
 import flixel.util.FlxGradient;
 import flixel.FlxState;
 import flixel.FlxBasic;
+#if mobileC
+import android.ui.FlxVirtualPad;
+import flixel.input.actions.FlxActionInput;
+#end
 
 class MusicBeatState extends FlxUIState
 {
@@ -25,6 +29,36 @@ class MusicBeatState extends FlxUIState
 
 	inline function get_controls():Controls
 		return PlayerSettings.player1.controls;
+	
+	#if mobileC
+	var _virtualpad:FlxVirtualPad;
+	
+	var trackedNoteInputs:Array<FlxActionInput> = [];
+	var trackedUIInputs:Array<FlxActionInput> =[];
+	
+	// adding virtualpad state
+	public function addVirtualPad(?DPad:FlxDPadMode, ?Action:FlxActionMode) {
+		_virtualpad = new FlxVirtualPad(DPad, Action);
+		_virtualpad.alpha = 0.75;
+		this.add(_virtualpad);
+		controls.setVirtualUIPad(_virtualpad, DPad, Action);
+		trackedUIInputs = controls.trackedUIInputs;
+		controls.trackedUIInputs = [];
+		
+		#if android
+		controls.addAndroidBack();
+		#end
+	}
+	
+	override function destroy() {
+		controls.removeFlxNoteInputs(trackedNoteInputs);
+		controls.removeFlxUIInputs(trackedUIInputs);
+		
+		super.destroy();
+	}
+	#else
+	public function addVirtualPad(?DPad, ?Action){};
+	#end
 
 	override function create() {
 		var skip:Bool = FlxTransitionableState.skipNextTransOut;
@@ -129,4 +163,9 @@ class MusicBeatState extends FlxUIState
 	{
 		//do literally nothing dumbass
 	}
+	
+	#if android
+	public static function androidback():Bool
+	        return FlxG.android.justPressed.BACK;
+	#end
 }
