@@ -114,6 +114,10 @@ class PauseSubState extends MusicBeatSubstate
 
 		changeSelection();
 
+                #if mobileC
+                addVirtualPad(UP_DOWN, A);
+                #end
+
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 	}
 
@@ -137,7 +141,7 @@ class PauseSubState extends MusicBeatSubstate
 			changeSelection(1);
 		}
 
-		if (accepted)
+		if (accepted #if android || MusicBeatState.androidback() #end) 
 		{
 			var daSelected:String = menuItems[curSelected];
 			for (i in 0...difficultyChoices.length-1) {
