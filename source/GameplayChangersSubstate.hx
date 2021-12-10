@@ -130,6 +130,9 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 			updateTextFrom(optionsArray[i]);
 		}
 
+                #if mobileC
+                addVirtualPad(FULL, A_B);
+                #end
 		changeSelection();
 		reloadCheckboxes();
 	}
@@ -148,7 +151,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 			changeSelection(1);
 		}
 
-		if (controls.BACK) {
+		if (controls.BACK #if android || MusicBeatState.androidback() #end) {
 			close();
 			ClientPrefs.saveSettings();
 			FlxG.sound.play(Paths.sound('cancelMenu'));
