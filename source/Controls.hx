@@ -11,8 +11,8 @@ import flixel.input.gamepad.FlxGamepadButton;
 import flixel.input.gamepad.FlxGamepadInputID;
 import flixel.input.keyboard.FlxKey;
 
-import ui.Hitbox;
-import ui.FlxVirtualPad;
+import android.ui.Hitbox;
+import android.ui.FlxVirtualPad;
 import flixel.ui.FlxButton;
 import flixel.group.FlxGroup;
 
