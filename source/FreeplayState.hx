@@ -168,6 +168,10 @@ class FreeplayState extends MusicBeatState
 
 			trace(md);
 		 */
+		
+		#if mobileC
+		addVirtualPad(FULL, A_B_C);
+		#end
 
 		var textBG:FlxSprite = new FlxSprite(0, FlxG.height - 26).makeGraphic(FlxG.width, 26, 0xFF000000);
 		textBG.alpha = 0.6;
@@ -237,7 +241,7 @@ class FreeplayState extends MusicBeatState
 		var upP = controls.UI_UP_P;
 		var downP = controls.UI_DOWN_P;
 		var accepted = controls.ACCEPT;
-		var space = FlxG.keys.justPressed.SPACE;
+		var space = FlxG.keys.justPressed.SPACE #if mobileC || _virtualpad.buttonC.justPressed #end;
 
 		var shiftMult:Int = 1;
 		if(FlxG.keys.pressed.SHIFT) shiftMult = 3;
@@ -257,7 +261,7 @@ class FreeplayState extends MusicBeatState
 			changeDiff(1);
 		else if (upP || downP) changeDiff();
 
-		if (controls.BACK)
+		if (controls.BACK #if android || MusicBeatState.androidback() #end)
 		{
 			if(colorTween != null) {
 				colorTween.cancel();
