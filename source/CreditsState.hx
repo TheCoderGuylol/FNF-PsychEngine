@@ -66,6 +66,8 @@ class CreditsState extends MusicBeatState
 		#end
 
 		var pisspoop:Array<Array<String>> = [ //Name - Icon name - Description - Link - BG Color
+			['Psych Engine Android By'],
+			['Cool Gamer',                  'gtnv',                 'Main PsychEngine\nAndroid Port,                                         'https://www.youtube.com/channel/UCnw5m41Yud2t7uoI9NXQj2g', 0xFFF571E3],
 			['Psych Engine Team'],
 			['Shadow Mario',		'shadowmario',		'Main Programmer of Psych Engine',						'https://twitter.com/Shadow_Mario_',	'FFDD33'],
 			['RiverOaken',			'riveroaken',		'Main Artist/Animator of Psych Engine',					'https://twitter.com/river_oaken',		'C30085'],
@@ -132,6 +134,9 @@ class CreditsState extends MusicBeatState
 		bg.color = getCurrentBGColor();
 		intendedColor = bg.color;
 		changeSelection();
+		#if mobileC
+		addVirtualPad(UP_DOWN, A_B);
+		#end
 		super.create();
 	}
 
@@ -154,7 +159,7 @@ class CreditsState extends MusicBeatState
 			changeSelection(1);
 		}
 
-		if (controls.BACK)
+		if (controls.BACK #if android || MusicBeatState.androidback() #end)
 		{
 			if(colorTween != null) {
 				colorTween.cancel();
