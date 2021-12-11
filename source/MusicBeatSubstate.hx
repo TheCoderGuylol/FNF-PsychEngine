@@ -31,7 +31,7 @@ class MusicBeatSubstate extends FlxSubState
 	var _virtualpad:FlxVirtualPad;
 	
 	var trackedinputs:Array<FlxActionInput> = [];
-	var camPAD:flixel.FlxCamera = new FlxCamera();
+	var camPAD:flixel.FlxCamera = new flixel.FlxCamera();
 	
 	// adding virtualpad to state
 	public function addVirtualPad(?DPad:FlxDPadMode, ?Action:FlxActionMode) {
