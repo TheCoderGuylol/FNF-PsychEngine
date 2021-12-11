@@ -122,7 +122,9 @@ class BaseOptionsMenu extends MusicBeatSubstate
 			}
 			updateTextFrom(optionsArray[i]);
 		}
-
+                #if mobileC
+                addVirtualPad(FULL, A_B);
+                #end
 		changeSelection();
 		reloadCheckboxes();
 	}
@@ -146,7 +148,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 			changeSelection(1);
 		}
 
-		if (controls.BACK) {
+		if (controls.BACK #if android || MusicBeatState.androidback() #end) {
 			close();
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 		}
