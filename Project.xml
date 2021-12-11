@@ -27,8 +27,8 @@
 	<window if="desktop" orientation="landscape" fullscreen="false" resizable="true" vsync="false"/>
 
 	<!--Mobile-specific-->
-	<assets path="assets/shared/images/htibox"/>
-	<define name="assets/shared/images/hitbox"/>
+	<assets path="assets/shared/images/hitbox"/>
+	<define name="mobileC" if="mobile"/>
 	<window if="mobile" orientation="landscape" fullscreen="true" width="1280" height="720" resizable="false"/>
 
 	<!--Switch-specific-->
