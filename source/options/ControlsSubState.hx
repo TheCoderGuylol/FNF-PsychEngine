@@ -32,6 +32,7 @@ class ControlsSubState extends MusicBeatSubstate {
 	private static var curAlt:Bool = false;
 
 	private static var defaultKey:String = 'Reset to Default Keys';
+        private static var mobileCustomC:String = 'Mobile Controls';
 	private var bindLength:Int = 0;
 
 	var optionShit:Array<Dynamic> = [
@@ -84,10 +85,11 @@ class ControlsSubState extends MusicBeatSubstate {
 
 		optionShit.push(['']);
 		optionShit.push([defaultKey]);
+                optionShit.push([mobileCustomC]);
 
 		for (i in 0...optionShit.length) {
 			var isCentered:Bool = false;
-			var isDefaultKey:Bool = (optionShit[i][0] == defaultKey);
+			var isDefaultKey:Bool = (optionShit[i][0] == defaultKey || optionShit[i][0] == mobileCustomC);
 			if(unselectableCheck(i, true)) {
 				isCentered = true;
 			}
@@ -112,6 +114,9 @@ class ControlsSubState extends MusicBeatSubstate {
 			}
 		}
 		changeSelection();
+                #if mobileC
+                addVirtualPad(FULL, A_B);
+                #end
 	}
 
 	var leaving:Bool = false;
@@ -128,7 +133,7 @@ class ControlsSubState extends MusicBeatSubstate {
 				changeAlt();
 			}
 
-			if (controls.BACK) {
+			if (controls.BACK #if android || MusicBeatState.androidback() #end) {
 				ClientPrefs.reloadControls();
 				close();
 				FlxG.sound.play(Paths.sound('cancelMenu'));
@@ -140,7 +145,9 @@ class ControlsSubState extends MusicBeatSubstate {
 					reloadKeys();
 					changeSelection();
 					FlxG.sound.play(Paths.sound('confirmMenu'));
-				} else if(!unselectableCheck(curSelected)) {
+				} else if(optionShit[curSelected][0] == mobileCustomC) {
+                                        MusicBeatState.switchState(new android.options.CustomControlsState());
+                                } else if(!unselectableCheck(curSelected)) {
 					bindingTime = 0;
 					rebindingKey = true;
 					if (curAlt) {
@@ -268,10 +275,10 @@ class ControlsSubState extends MusicBeatSubstate {
 	}
 
 	private function unselectableCheck(num:Int, ?checkDefaultKey:Bool = false):Bool {
-		if(optionShit[num][0] == defaultKey) {
+		if(optionShit[num][0] == defaultKey || optionShit[num][0] == mobileCustomC) {
 			return checkDefaultKey;
 		}
-		return optionShit[num].length < 2 && optionShit[num][0] != defaultKey;
+		return optionShit[num].length < 2 && optionShit[num][0] != defaultKey && optionShit[num][0] != mobileCustomC;
 	}
 
 	private function addBindTexts(optionText:Alphabet, num:Int) {
