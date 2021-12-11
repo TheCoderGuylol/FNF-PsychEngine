@@ -52,7 +52,7 @@ import StageData;
 import FunkinLua;
 import DialogueBoxPsych;
 #if mobileC
-import android.ui.MobileControls;
+import android.ui.Mobilecontrols;
 #end
 
 #if sys
