@@ -63,6 +63,10 @@ using StringTools;
 
 class PlayState extends MusicBeatState
 {
+	#if mobileC
+	var mcontrols:Mobilecontrols;
+	#end
+
 	public static var STRUM_X = 42;
 	public static var STRUM_X_MIDDLESCROLL = -278;
 
@@ -1030,6 +1034,28 @@ class PlayState extends MusicBeatState
 		timeBarBG.cameras = [camHUD];
 		timeTxt.cameras = [camHUD];
 		doof.cameras = [camHUD];
+	
+	        #if mobileC
+		mcontrols = new Mobilecontrols();
+	        switch (mcontrols.mode) {
+			case VIRTUALPAD_RIGHT | VIRTUALPAD_LEFT | VIRTUALPAD_CUSTOM:
+				controls.setVirtualPad(mcontrols._virtualpad, FULL, NONE);
+			case HITBOX:
+				controls.setHitbox(mcontrols._hitbox);
+			default:
+	        }
+	        trackedinputs = controls.trackedinputs;
+	        controls.trackedinputs = [];
+	
+	        var camControl:FlxCamera = new FlxCamera();
+	        camControl.bgColor.alpha = 0;
+	        FlxG.cameras.add(camControl);
+	        mcontrols.cameras = [camControl];
+	
+	        mcontrols.visible = false;
+	           
+	        add(mcontrols);
+	        #end
 
 		// if (SONG.song == 'South')
 		// FlxG.camera.alpha = 0.7;
@@ -1633,6 +1659,10 @@ class PlayState extends MusicBeatState
 			FlxG.sound.music.pause();
 			vocals.pause();
 		}
+		
+		#if mobileC
+		mcontrols.visible = true;
+		#end
 
 		// Song duration in a float, useful for the time left feature
 		songLength = FlxG.sound.music.length;
@@ -3027,6 +3057,10 @@ class PlayState extends MusicBeatState
 	function finishSong():Void
 	{
 		var finishCallback:Void->Void = endSong; //In case you want to change it in a specific song.
+		
+		#if mobileC
+		mcontrols.visible = false;
+		#end
 
 		updateTime = false;
 		FlxG.sound.music.volume = 0;
