@@ -8,6 +8,7 @@ import flixel.FlxSprite;
 #if mobileC
 import flixel.input.actions.FlxActionInput;
 import android.ui.FlxVirtualPad;
+import flixel.FlxCamera;
 #end
 
 class MusicBeatSubstate extends FlxSubState
@@ -31,12 +32,13 @@ class MusicBeatSubstate extends FlxSubState
 	var _virtualpad:FlxVirtualPad;
 	
 	var trackedinputs:Array<FlxActionInput> = [];
-	var camPAD:flixel.FlxCamera = new flixel.FlxCamera();
+	var camPAD:FlxCamera;
 	
 	// adding virtualpad to state
 	public function addVirtualPad(?DPad:FlxDPadMode, ?Action:FlxActionMode) {
 		_virtualpad = new FlxVirtualPad(DPad, Action);
 		_virtualpad.alpha = 0.75;
+		camPAD = new FlxCamera();
 		camPAD.bgColor.alpha = 0;
 		FlxG.cameras.add(camPAD);
 		FlxCamera.defaultCameras = [camPAD];
